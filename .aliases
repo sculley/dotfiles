@@ -1,0 +1,18 @@
+# assume-role aliases
+assume-aws-role() {
+  /usr/local/bin/assume-role -a $1 -u sam.culley -t $(get_token AWS)
+}
+
+# gauth aliases
+alias gauth="GAUTH_CONFIG=~/.config/gauth/.gauth.csv gauth"
+get_token () {
+	gauth 2>&1 | grep $1 | awk {'print $3}'
+}
+
+# Git aliases
+alias gs='git status'
+alias gc='git commit'
+alias gp='git pull --rebase'
+alias gcam='git commit -am'
+alias gl='git log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit'
+alias gchange='git add .; git commit -m "Change"; git push'

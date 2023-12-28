@@ -1,0 +1,87 @@
+# Run a docker container, removing it when it exits.
+# Usage: dockrun image [command]
+function dockrun() {
+ docker run --rm -it $1 $2
+}
+
+# Enter a running Docker container.
+# Usage: dockexec container_id/name
+function dockexec() {
+ if [[ ! "$1" ]] ; then
+     echo "You must supply a container ID or name."
+     return 0
+ fi
+
+ docker exec -it $1 /bin/sh
+ return 0
+}
+
+# Delete a given line number in the known_hosts file.
+# Usage: knownrm line_number
+function knownrm() {
+ re='^[0-9]+$'
+ if ! [[ $1 =~ $re ]] ; then
+   echo "error: line number missing" >&2;
+ else
+   sed -i '' "$1d" ~/.ssh/known_hosts
+ fi
+}
+
+# Delete all the jobs that have completed successfully in a namespace.
+# Usage: kubectl-delete-jobs namespace
+function kubectl-delete-jobs() {
+  kubectl get jobs -n $1 -o json \
+  | jq -r '.items[] | select(.status.succeeded == 1) | "job/\(.metadata.name) -n \(.metadata.namespace)"' \
+  | xargs -L1 kubectl delete
+}
+
+# Delete all the pods that have been evicted in a namespace.
+# Usage: kubectl-delete-evicted-pods namespace
+function kubectl-delete-evicted-pods() {
+  kubectl get pods -A -o json \
+  | jq -r '.items[] | select(.status.reason == "Evicted") | "pod/\(.metadata.name) -n \(.metadata.namespace)"' \
+  | xargs -L1 kubectl delete
+}
+
+# Suspend a job in a namespace.
+# Usage: kubectl-suspend-job job-name namespace
+function kubectl-suspend-job(){
+  kubectl patch cronjob $1 -n $2 -p '{"spec" : {"suspend" : true }}'
+}
+
+# Suspends all jobs in a namespace.
+# Usage: kubectl-suspend-all-jobs namespace
+function kubectl-suspend-all-jobs() {
+  for cj in $(kubectl get cronjobs -n $1 -o name); do
+    kubectl patch "$cj" -n $1 -p '{"spec" : {"suspend" : true }}';
+  done
+}
+
+# Unsuspend all jobs in a namespace.
+# Usage: kubectl-unsuspend-all-jobs namespace
+function kubectl-unsuspend-all-jobs() {
+  for cj in $(kubectl get cronjobs -n $1 -o name); do
+    kubectl patch "$cj" -n $1 -p '{"spec" : {"suspend" : false }}';
+  done
+}
+
+# Terraform diff, compares the before and after of a resource in a plan.
+# Usage: terraform-diff plan resource
+function terraform-diff () {
+    TEMP=$(mktemp -d)
+
+    echo "Generating a diff of plan '$1' for '$2' in '$TEMP'"
+
+    terraform show -json $1 | jq -r '.resource_changes[] | select(.address=="'"$2"'") | .change.before.values | add' > $TEMP/before.txt
+    terraform show -json $1 | jq -r '.resource_changes[] | select(.address=="'"$2"'") | .change.after.values | add' > $TEMP/after.txt
+
+    diff -u --color=always $TEMP/before.txt $TEMP/after.txt | sed -e '1,2d'
+}
+
+# Terraform fmt, only formats the .tf files not the .tfvars.
+# Usage: tf-fmt
+function tf-fmt() {
+  for file in $(ls *.tf);
+    do terraform fmt $file;
+  done
+}

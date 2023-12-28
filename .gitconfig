@@ -1,0 +1,42 @@
+[user]
+  name = Sam Culley
+  email = sam@samculley.co.uk
+  signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDr7+DT3hSqlJ5h8WScvTdZyvG64sovIvCOcvN2vVn1MuKWNV1NjfGQiPdLVMb6eGEtQJQvSQa2VLMMY1ncI2lIgS4ZVtrb27VtltKRIQNKU8SwF7Xr3UuulpsFftDK1J6j6NZGnZcqXUs+ezQfAtiTJ7TOld1b+LY/XZ2l0b3GAf2o0IOBRdd7b2rWJR2+jq4gIpYsIqrQVvxg0l1lrCEdUqshyosTqX44pgDCYf8oJuF4HzrmSDGUThY/wrWdtHgWtJ4MXev7Ffat8WQIaVm7d/dCryvz9yj8SHi5ULeLL1LX6IUqbXBdjTH95YBIpHMoLX2CPVKrJ5ArAu+pM+LF6+i/8t42Dh3QBr9/nw5OoMqM3+LzseCMrAXaXi1F+JTCUaQuP0SjjwuBfUwzefIIb45xyEFgjVzWGum2rOoQ8ELriifyhIl56SpKJhLRKYg7e7Ku6720W4IvkpnhhrykQwBrahZuDAGYXH9yCUzaoSsYVbXe6P5zCuriAM0+M1s=
+[core]
+  editor = vi
+  excludesfile = ~/.gitignore
+  autocrlf = input
+[color]
+  branch = auto
+  diff = auto
+  interactive = auto
+  status = auto
+[init]
+  defaultBranch = main
+[web]
+  browser = google-chrome
+[credential]
+  helper = osxkeychain
+[push]
+  default = simple
+  autoSetupRemote = true
+[merge]
+  tool = kdiff3
+[difftool]
+  prompt = false
+[alias]
+  c = commit
+  ca = commit -a
+  cm = commit -m
+  cam = commit -am
+  d = diff
+  dc = diff --cached
+  l = log --graph --pretty=format:"%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset" --abbrev-commit
+[pull]
+  rebase = true
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[commit]
+  gpgsign = true
