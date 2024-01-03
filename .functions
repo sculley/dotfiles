@@ -84,6 +84,7 @@ function tf-fmt() {
   for file in $(ls *.tf);
     do terraform fmt $file;
   done
+}
 
 # Ansible - Open the mac-dev-playbook config.yml
 # ansible-mac-setup-update-conf
