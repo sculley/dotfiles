@@ -51,15 +51,15 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 export TIMEFMT=$'\nreal\t%*E\nuser\t%*U\nsys\t%*S'
 
 # Include alias file (if present) containing aliases for various tasks.
-if [ -f ~/.aliases ]
+if [ -f $HOME/.aliases ]
 then
-  source ~/.aliases
+  source $HOME/.aliases
 fi
 
 # Include functios file (if present) containing functions for various tasks.
-if [ -f ~/.functions ]
+if [ -f $HOME/.functions ]
 then
-  source ~/.functions
+  source $HOME/.functions
 fi
 
 # Set architecture-specific brew share path.

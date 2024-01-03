@@ -84,4 +84,16 @@ function tf-fmt() {
   for file in $(ls *.tf);
     do terraform fmt $file;
   done
+
+# Ansible - Open the mac-dev-playbook config.yml
+# ansible-mac-setup-update-conf
+function ansible-mac-setup-update-conf () {
+  code ~/Ansible/playbooks/mac-dev-playbook/config.yml
+}
+
+# Ansible - apply the mac-dev-playbook homebrew role
+# Usage: ansible-mac-setup-homebrew
+function ansible-mac-setup-homebrew() {
+  cd ~/Ansible/playbooks/mac-dev-playbook
+  ansible-playbook main.yml -K --tags homebrew
 }
