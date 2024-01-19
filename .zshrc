@@ -129,6 +129,24 @@ then
   export AWS_REGION=eu-west-2
 fi
 
+# Google
+if [ -d "$(brew --prefix)/share/google-cloud-sdk" ]
+then
+  source "$(brew --prefix)/share/google-cloud-sdk/path.zsh.inc"
+  source "$(brew --prefix)/share/google-cloud-sdk/completion.zsh.inc"
+fi
+
+# work related stuff
+if [ -f ~/.work-functions ]
+then
+  source ~/.work-functions
+fi
+
+if [ -f ~/.work-aliases ]
+then
+  source ~/.work-aliases
+fi
+
 # powerlevel10k
 [[ ! -f /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme ]] || source /opt/homebrew/share/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
